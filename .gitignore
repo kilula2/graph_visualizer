@@ -1,0 +1,41 @@
+# Сборка
+build/
+cmake-build-*/
+
+# Qt Creator
+*.pro.user
+*.pro.user.*
+CMakeUserPresets.json
+
+# Скомпилированные файлы
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# Библиотеки
+*.so
+*.dylib
+*.dll
+
+# Автосгенерированное Qt
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Системное
+.DS_Store
+Thumbs.db
+
+# Архивы
+*.zip
+*.tar.gz
+*.7z
