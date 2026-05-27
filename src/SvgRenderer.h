@@ -1,13 +1,13 @@
 #ifndef SVGRENDERER_H
 #define SVGRENDERER_H
 
-#include <QString>
+#include <string>
 
 class Graph;
 
 class SvgRenderer {
 public:
-    void render(const Graph& graph, const QString& filename);
+    void render(const Graph& graph, const std::string& filename);
 };
 
 #endif // SVGRENDERER_H

@@ -13,8 +13,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QResizeEvent>
-#include <QPainter>
-#include <QPaintEvent>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -98,14 +96,12 @@ void MainWindow::applyStyles() {
         QMainWindow {
             background-color: #f0f2f5;
         }
-
         #titleLabel {
             font-size: 18px;
             font-weight: bold;
             color: #1a1a2e;
             padding: 4px;
         }
-
         #graphInput {
             background-color: #ffffff;
             border: 1px solid #d0d5dd;
@@ -114,11 +110,9 @@ void MainWindow::applyStyles() {
             font-size: 13px;
             color: #333333;
         }
-
         #graphInput:focus {
             border: 1px solid #4a90d9;
         }
-
         QPushButton {
             background-color: #4a90d9;
             color: white;
@@ -128,31 +122,24 @@ void MainWindow::applyStyles() {
             font-size: 13px;
             font-weight: bold;
         }
-
         QPushButton:hover {
             background-color: #3a7bc8;
         }
-
         QPushButton:pressed {
             background-color: #2d6cb5;
         }
-
         #loadButton {
             background-color: #6c757d;
         }
-
         #loadButton:hover {
             background-color: #5a6268;
         }
-
         #saveButton {
             background-color: #28a745;
         }
-
         #saveButton:hover {
             background-color: #218838;
         }
-
         #statusLabel {
             color: #666666;
             font-size: 12px;
@@ -166,14 +153,11 @@ void MainWindow::onLoadFile() {
         this, "Открыть файл с графом", QString(),
         "Текстовые файлы (*.txt);;Все файлы (*)");
 
-    if (filename.isEmpty()) {
-        return;
-    }
+    if (filename.isEmpty()) return;
 
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Ошибка",
-                             "Не удалось открыть файл: " + filename);
+        QMessageBox::warning(this, "Ошибка", "Не удалось открыть файл: " + filename);
         statusLabel_->setText("Ошибка загрузки файла");
         return;
     }
@@ -190,14 +174,13 @@ void MainWindow::onVisualize() {
     QString text = textEdit_->toPlainText().trimmed();
 
     if (text.isEmpty()) {
-        QMessageBox::warning(this, "Ошибка",
-                             "Введите описание графа или загрузите файл.");
+        QMessageBox::warning(this, "Ошибка", "Введите описание графа или загрузите файл.");
         return;
     }
 
     try {
         statusLabel_->setText("Парсинг графа...");
-        graph_ = parser_.parse(text);
+        graph_ = parser_.parse(text.toStdString());
 
         statusLabel_->setText("Раскладка графа...");
         auto& layout = ForceDirectedLayout::getInstance();
@@ -218,8 +201,7 @@ void MainWindow::onVisualize() {
 
 void MainWindow::onSaveSvg() {
     if (!graphReady_) {
-        QMessageBox::warning(this, "Ошибка",
-                             "Сначала визуализируйте граф.");
+        QMessageBox::warning(this, "Ошибка", "Сначала визуализируйте граф.");
         return;
     }
 
@@ -227,15 +209,12 @@ void MainWindow::onSaveSvg() {
         this, "Сохранить SVG", "graph.svg",
         "SVG файлы (*.svg);;Все файлы (*)");
 
-    if (filename.isEmpty()) {
-        return;
-    }
+    if (filename.isEmpty()) return;
 
     try {
-        renderer_.render(graph_, filename);
+        renderer_.render(graph_, filename.toStdString());
         statusLabel_->setText("Сохранено: " + filename);
-        QMessageBox::information(this, "Успех",
-                                 "Граф сохранён в " + filename);
+        QMessageBox::information(this, "Успех", "Граф сохранён в " + filename);
     }
     catch (const std::exception& e) {
         QMessageBox::warning(this, "Ошибка", e.what());

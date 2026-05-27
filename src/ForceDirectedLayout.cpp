@@ -197,16 +197,27 @@ void ForceDirectedLayout::calculateRepulsion(Graph& graph) {
 }
 
 void ForceDirectedLayout::calculateAttraction(Graph& graph) {
-    for (auto& e : graph.getEdges()) {
-        double dx = e.getSource()->getX() - e.getTarget()->getX();
-        double dy = e.getSource()->getY() - e.getTarget()->getY();
-        double dist = sqrt(dx * dx + dy * dy);
-        if (dist < 1.0) dist = 1.0;
-        double f = attractionForce_ * (dist - idealEdgeLength_);
-        e.getSource()->setDx(e.getSource()->getDx() - dx / dist * f);
-        e.getSource()->setDy(e.getSource()->getDy() - dy / dist * f);
-        e.getTarget()->setDx(e.getTarget()->getDx() + dx / dist * f);
-        e.getTarget()->setDy(e.getTarget()->getDy() + dy / dist * f);
+    for (const auto& edge : graph.getEdges()) {
+        if (edge.isLoop()) continue;
+
+        Vertex* v1 = edge.getSource();
+        Vertex* v2 = edge.getTarget();
+
+        double dx = v1->getX() - v2->getX();
+        double dy = v1->getY() - v2->getY();
+        double distance = std::sqrt(dx * dx + dy * dy);
+
+        if (distance < 1.0) distance = 1.0;
+
+        double force = attractionForce_ * edge.getWeight() * (distance - idealEdgeLength_);
+
+        double fx = (dx / distance) * force;
+        double fy = (dy / distance) * force;
+
+        v1->setDx(v1->getDx() - fx);
+        v1->setDy(v1->getDy() - fy);
+        v2->setDx(v2->getDx() + fx);
+        v2->setDy(v2->getDy() + fy);
     }
 }
 

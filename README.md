@@ -17,14 +17,6 @@
 cmake -S . -B build -DCMAKE_PREFIX_PATH="путь/к/Qt/6.x.x/gcc_64"
 cmake --build build
 
-### Пример с путём к Qt (Windows, MinGW):
-cmake -S . -B build -DCMAKE_PREFIX_PATH="C:/Qt/6.7.0/mingw_64"
-cmake --build build
-
-### Пример с путём к Qt (Linux, GCC):
-cmake -S . -B build -DCMAKE_PREFIX_PATH="~/Qt/6.7.0/gcc_64"
-cmake --build build
-
 ### Сборка через Qt Creator:
 Открыть CMakeLists.txt в Qt Creator
 Выбрать kit с Qt 6

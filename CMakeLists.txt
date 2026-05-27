@@ -15,8 +15,8 @@ set(SOURCES
     src/GraphParser.cpp
     src/ForceDirectedLayout.cpp
     src/SvgRenderer.cpp
-    src/MainWindow.cpp
     src/Canvas.cpp
+    src/MainWindow.cpp
 )
 
 set(HEADERS
@@ -26,13 +26,12 @@ set(HEADERS
     src/GraphParser.h
     src/ForceDirectedLayout.h
     src/SvgRenderer.h
-    src/MainWindow.h
     src/Canvas.h
+    src/MainWindow.h
     include/simple_svg.hpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS}
-    src/Canvas.h src/Canvas.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/src
@@ -40,3 +39,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
+
+# Тесты
+option(BUILD_TESTS "Build unit tests" ON)
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

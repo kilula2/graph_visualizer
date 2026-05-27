@@ -1,14 +1,14 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include <QString>
+#include <string>
 
 class Vertex {
 public:
-    Vertex(int id, const QString& label);
+    Vertex(int id, const std::string& label);
 
     int getId() const;
-    QString getLabel() const;
+    std::string getLabel() const;
 
     double getX() const;
     double getY() const;
@@ -23,7 +23,7 @@ public:
 
 private:
     int id_;
-    QString label_;
+    std::string label_;
     double x_;
     double y_;
     double dx_;

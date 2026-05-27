@@ -1,6 +1,6 @@
 #include "Vertex.h"
 
-Vertex::Vertex(int id, const QString& label)
+Vertex::Vertex(int id, const std::string& label)
     : id_(id)
     , label_(label)
     , x_(0.0)
@@ -14,7 +14,7 @@ int Vertex::getId() const {
     return id_;
 }
 
-QString Vertex::getLabel() const {
+std::string Vertex::getLabel() const {
     return label_;
 }
 
